@@ -5,7 +5,7 @@ Base docker image to run PHP applications on Apache with composer
 
 - Git
 - Apache2
-- PHP Version 5.6.3
+- PHP Version 5.59, **5.6.3**
 - Composer
 - NodeJS
 - MySQL Client
@@ -60,10 +60,10 @@ systems({
 Building the base image
 -----------------------
 
-To create the base image `azukiapp/php-apache:5.6`, execute the following command on the azuki-docker-php folder:
+To create the base image `azukiapp/php-apache`, execute the following command on the azuki-docker-php folder:
 
 ```sh
-$ docker build -t azukiapp/php-apache:5.6 .
+$ docker build -t azukiapp/php-apache .
 ```
 
 Running your Apache+PHP docker image
@@ -72,7 +72,7 @@ Running your Apache+PHP docker image
 Start your image binding the external ports 80 in all interfaces to your container:
 
 ```sh
-$ docker run -d -p 80:80 azukiapp/php-apache:5.6
+$ docker run -d -p 80:80 azukiapp/php-apache
 ```
 
 Test your deployment:
