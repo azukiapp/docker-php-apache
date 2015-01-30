@@ -5,7 +5,7 @@ Base docker image to run PHP applications on Apache with composer
 
 - Git
 - Apache2
-- PHP Version 5.59, **5.6.3**
+- PHP Version `5.6.3` (and `5.5.9`)
 - Composer
 - NodeJS
 - MySQL Client
