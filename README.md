@@ -26,7 +26,7 @@ systems({
     // Dependent systems
     depends: [], // postgres, mysql, mongodb ...
     // More images:  http://images.azk.io
-    image: { docker: "azukiapp/php-apache:5.6" },
+    image: { docker: "azukiapp/php-apache" },
     workdir: "/azk/#{manifest.dir}",
     shell: "/bin/bash",
     wait: {"retry": 20, "timeout": 1000},
