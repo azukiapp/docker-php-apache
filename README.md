@@ -1,41 +1,61 @@
-[azukiapp/php-apache](https://registry.hub.docker.com/u/azukiapp/php-apache/)
-================
+[azukiapp/php-apache](http://images.azk.io/#/php-apache)
+==================
 
-Base docker image to run PHP applications on Apache with composer
+Base docker image to run **PHP** applications in [`azk`](http://azk.io)
 
+Versions (tags)
+---
+
+- [`latest`, `5`, `5.6`, `5.6.3`](https://github.com/azukiapp/docker-php-apache/blob/master/5.6/Dockerfile)
+- [`5.5`, `5.5.9`](https://github.com/azukiapp/docker-php-apache/blob/master/5.5/Dockerfile)
+
+Image content:
+---
+
+- Ubuntu 14.04
 - Git
-- Apache2
-- PHP Version `5.6.3` (and `5.5.9`)
+- VIM
 - Composer
 - NodeJS
-- MySQL Client
-- PostgreSQL Client
+- NPM
+- PHP
+
+Database:
+
+- PostgreSQL client
+- MySQL client
 - MongoDB
 
-##azk
+### Usage with `azk`
+
 Example of using that image with the [azk](http://azk.io):
 
-```
+```js
 /**
  * Documentation: http://docs.azk.io/Azkfile.js
  */
-
+ 
 // Adds the systems that shape your system
 systems({
-  phpSample: {
+  "my-app": {
     // Dependent systems
     depends: [], // postgres, mysql, mongodb ...
     // More images:  http://images.azk.io
-    image: { docker: "azukiapp/php-apache" },
+    image: {"docker": "azukiapp/php-apache"},
+    // Steps to execute before running instances
+    provision: [
+      // "composer install",
+    ],
     workdir: "/azk/#{manifest.dir}",
     shell: "/bin/bash",
+    command: "# command to run app",
     wait: {"retry": 20, "timeout": 1000},
     mounts: {
       '/azk/#{manifest.dir}': path("."),
     },
     scalable: {"default": 2},
     http: {
-      // phpSample.azk.dev
+      // my-app.dev.azk.io
       domains: [ "#{system.name}.#{azk.default_domain}" ]
     },
     ports: {
@@ -44,7 +64,7 @@ systems({
     },
     envs: {
       // set instances variables
-      // EXAMPLE: "value",
+      PHP_ENV: "dev",
     },
     docker_extra: {
       // extra docker options
@@ -54,20 +74,24 @@ systems({
     },
   },
 });
-
 ```
 
-Building the base image
------------------------
 
-To create the base image `azukiapp/php-apache`, execute the following command on the azuki-docker-php folder:
+### Usage with `docker`
+
+To create the image `azukiapp/php-apache`, execute the following command on the docker-php-apache folder:
 
 ```sh
-$ docker build -t azukiapp/php-apache .
+$ docker build -t azukiapp/php-apache 5.6/
 ```
 
-Running your Apache+PHP docker image
-------------------------------------
+To run the image and bind to port 80:
+
+```sh
+$ docker run -it --rm --name my-app -p 80:80 -v "$PWD":/myapp -w /myapp azukiapp/php-apache php index.php
+```
+
+To run Sample project:
 
 Start your image binding the external ports 80 in all interfaces to your container:
 
@@ -83,6 +107,17 @@ $ curl http://localhost/
 Hello world!
 ```
 
+Logs
+---
+
+```sh
+# with azk
+$ azk logs my-app
+
+# with docker
+$ docker logs <CONTAINER_ID>
+```
+
 ## License
 
-Dockerfiles distributed under the [Apache License](https://github.com/azukiapp/dockerfiles/blob/master/LICENSE).
+Azuki Dockerfiles distributed under the [Apache License](https://github.com/azukiapp/dockerfiles/blob/master/LICENSE).
