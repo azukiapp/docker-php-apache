@@ -90,9 +90,9 @@ To run the image and bind to port 80:
 $ docker run -it --rm --name my-app -p 80:80 -v "$PWD":/myapp -w /myapp azukiapp/php-apache php index.php
 ```
 
-To run a sample project:
+#### To run the sample project:
 
-Start your image binding the external port 80 in all interfaces to your container:
+Start your image binding external port 80 in all interfaces to your container:
 
 ```sh
 $ docker run -d -p 80:80 azukiapp/php-apache
