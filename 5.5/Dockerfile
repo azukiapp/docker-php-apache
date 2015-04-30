@@ -40,7 +40,7 @@ RUN a2enmod rewrite && \
     php5enmod mcrypt mongo
 
 RUN sed -i "s/variables_order.*/variables_order = \"EGPCS\"/g" /etc/php5/apache2/php.ini
-RUN sed -i 's/\/var\/www\/html/\/var\/www/g' /etc/apache2/sites-available/000-default.conf
+RUN sed -i 's/\/var\/www\/html/\/var\/www\/public/g' /etc/apache2/sites-available/000-default.conf
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
@@ -54,4 +54,5 @@ ADD sample/ /app
 
 EXPOSE 80
 WORKDIR /app
+
 CMD ["/run.sh"]
