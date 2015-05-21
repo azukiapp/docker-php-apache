@@ -44,8 +44,8 @@ RUN echo "extension=mongo.so" > /etc/php5/mods-available/mongo.ini
 RUN a2enmod rewrite && \
     php5enmod mcrypt mongo
 
-RUN sed -i "s/variables_order.*/variables_order = \"EGPCS\"/g" /etc/php5/apache2/php.ini
-RUN sed -i 's/\/var\/www\/html/\/var\/www\/public/g' /etc/apache2/sites-available/000-default.conf
+RUN  sed -i -e "s/variables_order.*/variables_order = \"EGPCS\"/g" /etc/php5/apache2/php.ini \
+  && sed -i -e "s/\/var\/www\/html/\/var\/www\/public/g" /etc/apache2/sites-available/000-default.conf
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
@@ -53,9 +53,9 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 ADD run.sh /run.sh
 RUN chmod 755 /*.sh
 
-# Configure /app folder with sample app
-RUN mkdir -p /app && rm -fr /var/www && ln -s /app /var/www
-ADD sample/ /app
+# Configure nginx root with sample app
+ADD sample/ /var/www/public
+RUN chown -R :www-data /var/www/public
 
 EXPOSE 80
 WORKDIR /app

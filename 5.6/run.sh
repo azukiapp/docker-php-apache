@@ -1,9 +1,8 @@
 #!/bin/bash
 source /etc/apache2/envvars
 
-DOCUMENT_ROOT="/app"
-
 if [ ! -z "$APP_DIR" ]; then
+	DOCUMENT_ROOT="/var/www"
 	rm -rf ${DOCUMENT_ROOT}/*
 
 	if [ -d "${APP_DIR}/public" ]; then
